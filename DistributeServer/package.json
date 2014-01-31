@@ -1,0 +1,16 @@
+﻿{
+  "name": "DistributeServer",
+  "version": "0.0.0",
+  "description": "DistributeServer",
+  "main": "app.js",
+  "author": {
+    "name": "兔",
+    "email": ""
+  },
+  "dependencies": {
+    "express": "3.4.4",
+    "jade": "*",
+    "stylus": "*",
+    "socket.io": "*"
+  }
+}

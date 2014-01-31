@@ -1,0 +1,10 @@
+﻿{
+  "name": "DistributeClient",
+  "version": "0.0.0",
+  "description": "DistributeClient",
+  "main": "app.js",
+  "author": {
+    "name": "兔",
+    "email": ""
+  }
+}

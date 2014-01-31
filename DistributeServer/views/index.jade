@@ -1,0 +1,75 @@
+extends layout
+
+block head
+  link(rel='stylesheet', href='/css/style.css')
+
+block content
+  .container
+    table#info.table.table-condensed
+      thead
+        tr
+          th 机器名
+          th 状态
+          th Cycle Time
+          th collision/min
+          th shares
+          th.hidden-sm.hidden-xs 最近连接时间/重连次数
+          th.hidden-sm.hidden-xs 最近启动时间/重启次数
+          th 操作
+      tbody
+        - var totalInfo = { cpm : 0, shares : 0, rebootCount : 0, reconnectCount: 0};
+        - each client in clients
+          - if (client.state > -2)
+            - var totalShareCount = client.lastShareCount + client.shareCount;
+            - totalInfo.cpm += client.collisionPerMinute;
+            - totalInfo.rebootCount += client.rebootCount;
+            - totalInfo.reconnectCount += client.reconnectCount;
+            - totalInfo.shares += totalShareCount;
+            tr
+              td= client.name
+              td
+                - if (client.state == 0)
+                  span.glyphicon.glyphicon-link.text-success(title="客户端已连接")
+                - else if (client.state == -1)
+                  span.glyphicon.glyphicon-link.text-danger(title="客户端未连接")
+                - if (client.state == -1)
+                  span.glyphicon.glyphicon-question-sign.text-muted(title="因为客户端未连接，无法知道计算节点的状态")
+                - else if (client.nodeState == 1)
+                  span.glyphicon.glyphicon-ok.text-success(title="节点已启动")
+                - else if (client.nodeState == 0)
+                  span.glyphicon.glyphicon-remove.text-danger(title="节点未启动")
+              td= client.cycleTime
+              td= client.collisionPerMinute
+              td= totalShareCount
+              td.hidden-sm.hidden-xs #{client.lastConnect.getFormated()}/#{client.reconnectCount}
+              td.hidden-sm.hidden-xs #{client.lastReboot.getFormated()}/#{client.rebootCount}
+              td
+                - if (client.state == 0)
+                  a(href="/console?id=#{client.id}")
+                    button.btn.btn-xs.btn-primary 控制台
+                  - if (client.nodeState == 1)
+                    a(href="/stop?id=#{client.id}")
+                      button.btn.btn-xs.btn-danger 停止
+                  - else if (client.nodeState == 0)
+                    a(href="/run?id=#{client.id}")
+                      button.btn.btn-xs.btn-success 启动
+                - else
+                  a(href="/hide?id=#{client.id}")
+                    button.btn.btn-xs.btn-danger 隐藏
+                  button.btn.btn-xs.btn-success(disabled) 启动
+      thead
+        tr
+          th 总计
+          th
+          th
+          th= totalInfo.cpm.toFixed(2)
+          th= totalInfo.shares
+          th.hidden-sm.hidden-xs= totalInfo.reconnectCount
+          th.hidden-sm.hidden-xs= totalInfo.rebootCount
+          th
+    a(href="/reset")
+      button.btn.btn-small.btn-primary 重置统计信息
+    a(href="/run")
+      button.btn.btn-small.btn-success 全部启动
+    a(href="/stop")
+      button.btn.btn-small.btn-danger 全部停止

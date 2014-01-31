@@ -1,0 +1,7 @@
+.btn {
+  margin-right: 4px;
+}
+.table>thead:last-child>tr>th {
+  border-bottom-width: 0px;
+  border-top-width: 2px;
+}
