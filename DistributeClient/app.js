@@ -55,7 +55,7 @@ function parseConsole(data) { //完成
 var performanceCounter = 0;//节点性能信息出现次数计数器
 function parseOutput(data) {
   var outstr = data.toString();
-  var reg = /Cycle time: (\d+)ms GPU time: [\d\.]+ms cpm: ([\d+\.]+) spm: [\d+\.]+ Shares total: (\d+)/;
+  var reg = /Cycle time: (\d+)ms GPU time: [\d\.]+ms cpm: ([\d+\.]+) spm: [\d+\.]+ Shares: (\d+)/;
   var result = reg.exec(outstr);
   if (result) {
     performanceCounter++;
