@@ -132,5 +132,5 @@ app.get('/hide', function(req, res) {
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
-DistributeServer.nodeStartCommand = "solid_version -uf simple -d 0 -b 32768 -t 64";
+DistributeServer.nodeStartCommand = config.command;
 DistributeServer.listen(config.clientPort);
